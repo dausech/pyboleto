@@ -128,6 +128,7 @@ class BoletoData(object):
     :param local_pagamento: *(default: 'Pagável em qualquer banco
         até o vencimento')*
     :param moeda: Nunca precisa mudar essa opção *(default: '9')*
+    :param conteudo_qr_code
 
     """
 
@@ -168,7 +169,8 @@ class BoletoData(object):
         self.sacado_bairro = kwargs.pop('sacado_bairro', "")
         self.sacado_cep = kwargs.pop('sacado_cep', "")
         self.inicio_nosso_numero = kwargs.pop('inicio_nosso_numero', "")
-
+        self.conteudo_qr_code = kwargs.pop('conteudo_qr_code',"")
+        
         if kwargs:
             raise TypeError("Paramêtro(s) desconhecido: %r" % (kwargs, ))
         self._cedente_endereco = None

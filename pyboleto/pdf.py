@@ -10,11 +10,13 @@
 
 """
 import os
-
+import io
+import qrcode 
 from reportlab.graphics.barcode.common import I2of5
 from reportlab.lib.colors import black
 from reportlab.lib.pagesizes import A4, landscape as pagesize_landscape
 from reportlab.lib.units import mm, cm
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfgen import canvas
 
@@ -344,7 +346,7 @@ class BoletoPDF(object):
         )
 
         # Take care of long field
-        sacado0 = unicode(boletoDados.sacado[0])
+        sacado0 = str(boletoDados.sacado[0])
         while(stringWidth(sacado0,
               self.pdfCanvas._fontname,
               self.pdfCanvas._fontsize) > 8.4 * cm):
@@ -526,7 +528,30 @@ class BoletoPDF(object):
                 y - (i * self.deltaFont),
                 instrucoes[i]
             )
+        
+        if boletoDados.conteudo_qr_code:            
+            qr = qrcode.QRCode(version=5,
+                                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                                box_size=10,
+                                border=4,
+                            )
+            qr.add_data(boletoDados.conteudo_qr_code)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")            
+            bytearr = io.BytesIO()
+            img.save(bytearr)
+            img_qrcode = ImageReader(bytearr)
+            self.pdfCanvas.drawImage(
+                img_qrcode,
+                320,
+                85,
+                30 * mm,                
+                preserveAspectRatio=True,
+                anchor='sw'
+            )
+
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
+
 
         # Linha horizontal com primeiro campo Uso do Banco
         y += self.heightLine
@@ -738,6 +763,7 @@ class BoletoPDF(object):
                 preserveAspectRatio=True,
                 anchor='sw'
             )
+        
         self.pdfCanvas.setFont('Helvetica-Bold', 18)
         self.pdfCanvas.drawCentredString(
             50 * mm,
