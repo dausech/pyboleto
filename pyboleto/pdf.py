@@ -475,7 +475,7 @@ class BoletoPDF(object):
 
         # Linha vertical limitando todos os campos da direita
         self.pdfCanvas.setLineWidth(1)
-        self.__verticalLine(self.width - (45 * mm), y, 9 * self.heightLine)
+        self.__verticalLine(self.width - (45 * mm), y, 10 * self.heightLine)
         self.pdfCanvas.drawString(
             self.width - (45 * mm) + self.space,
             y + self.deltaTitle,
@@ -699,8 +699,10 @@ class BoletoPDF(object):
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
 
         # Linha horizontal com primeiro campo Cedente
-        y += self.heightLine
+        y += self.heightLine 
         self.__horizontalLine(0, y, self.width)
+        # o dobro da altura para incluir o endereço
+        y += self.heightLine 
         self.pdfCanvas.drawString(0, y + self.deltaTitle, 'Cedente')
         self.pdfCanvas.drawString(
             self.width - (45 * mm) + self.space,
@@ -709,12 +711,15 @@ class BoletoPDF(object):
         )
 
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
-        self.pdfCanvas.drawString(0, y + self.space, boletoDados.cedente)
+        self.pdfCanvas.drawString(0, y + self.space, boletoDados.cedente+"  CNPJ:"+boletoDados.cedente_documento)
         self.pdfCanvas.drawRightString(
             self.width - 2 * self.space,
             y + self.space,
             boletoDados.agencia_conta_cedente
         )
+        self.pdfCanvas.drawString(0, y - (self.space * 3), boletoDados.cedente_endereco+"  "+boletoDados.cedente_bairro)
+        self.pdfCanvas.drawString(0, y - (self.space * 6), boletoDados.cedente_cep+"  "+boletoDados.cedente_cidade+"  "+boletoDados.cedente_uf)
+
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
 
         # Linha horizontal com primeiro campo Local de Pagamento
