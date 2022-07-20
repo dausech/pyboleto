@@ -465,12 +465,14 @@ class BoletoPDF(object):
         self.pdfCanvas.setLineWidth(2)
         self.__horizontalLine(0, y, self.width)
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
-        for i in range(len(sacado)):
+        cnpj_sacado =  f"  CNPJ: {boletoDados.sacado_documento}"
+        for i in range(len(sacado)):   #Linhas do Sacado
             self.pdfCanvas.drawString(
                 15 * mm,
                 (y - 10) - (i * self.deltaFont),
-                sacado[i]
+                sacado[i]+cnpj_sacado                
             )
+            cnpj_sacado = ""
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
 
         # Linha vertical limitando todos os campos da direita
@@ -717,8 +719,8 @@ class BoletoPDF(object):
             y + self.space,
             boletoDados.agencia_conta_cedente
         )
-        self.pdfCanvas.drawString(0, y - (self.space * 3), boletoDados.cedente_endereco+"  "+boletoDados.cedente_bairro)
-        self.pdfCanvas.drawString(0, y - (self.space * 6), boletoDados.cedente_cep+"  "+boletoDados.cedente_cidade+"  "+boletoDados.cedente_uf)
+        self.pdfCanvas.drawString(0, y - (self.space * 3), boletoDados.cedente_logradouro+"  "+boletoDados.cedente_bairro)
+        self.pdfCanvas.drawString(0, y - (self.space * 8), boletoDados.cedente_cep+"  "+boletoDados.cedente_cidade+"  "+boletoDados.cedente_uf)
 
         self.pdfCanvas.setFont('Helvetica', self.fontSizeTitle)
 
