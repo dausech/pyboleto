@@ -212,12 +212,12 @@ class BoletoPDF(object):
         )
         self.__verticalLine(
             self.width - (30 * mm) - (35 * mm),
-            (linhaInicial + 1) * self.heightLine,
+            (linhaInicial + 2) * self.heightLine,
             2 * self.heightLine
         )
         self.__verticalLine(
             self.width - (30 * mm) - (35 * mm) - (40 * mm),
-            (linhaInicial + 1) * self.heightLine,
+            (linhaInicial + 2) * self.heightLine,
             2 * self.heightLine
         )
 
