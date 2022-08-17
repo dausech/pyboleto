@@ -526,6 +526,12 @@ class BoletoPDF(object):
             y + self.deltaTitle,
             'Instruções'
         )
+        if boletoDados.conteudo_qr_code:            
+            self.pdfCanvas.drawString(
+                self.width - (70 * mm) + self.space,
+                y + self.deltaTitle,
+                'Pague com PIX'
+            )
 
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
         instrucoes = boletoDados.instrucoes
@@ -536,11 +542,11 @@ class BoletoPDF(object):
                 instrucoes[i]
             )
         
-        if boletoDados.conteudo_qr_code:            
+        if boletoDados.conteudo_qr_code:                        
             qr = qrcode.QRCode(version=5,
                                 error_correction=qrcode.constants.ERROR_CORRECT_L,
                                 box_size=10,
-                                border=4,
+                                border=3,
                             )
             qr.add_data(boletoDados.conteudo_qr_code)
             qr.make(fit=True)
@@ -550,9 +556,9 @@ class BoletoPDF(object):
             img_qrcode = ImageReader(bytearr)
             self.pdfCanvas.drawImage(
                 img_qrcode,
-                320,
-                85,
-                30 * mm,                
+                323,
+                87,
+                28 * mm,                
                 preserveAspectRatio=True,
                 anchor='sw'
             )

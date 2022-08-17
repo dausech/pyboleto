@@ -17,7 +17,7 @@ def print_bradesco():
                               "CEP: 12345-678")
         d.agencia_cedente = '0278-0'
         d.conta_cedente = '43905-3'
-
+        d.especie_documento = "DM"
         d.data_vencimento = datetime.date(2011, 1, 25)
         d.data_documento = datetime.date(2010, 2, 12)
         d.data_processamento = datetime.date(2010, 2, 12)
@@ -60,7 +60,7 @@ def print_bradesco():
 #    boleto.save()
 
     # Bradesco Formato normal - uma pagina por folha A4
-    boleto = BoletoPDF('boleto-bradesco-normal.pdf')
+    boleto = BoletoPDF('boleto-bradesco.pdf')
     for i in range(len(listaDadosBradesco)):
         boleto.drawBoleto(listaDadosBradesco[i])
         boleto.nextPage()
