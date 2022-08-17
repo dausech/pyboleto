@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import io 
 import pyboleto
 from pyboleto.bank.bradesco import BoletoBradesco
 from pyboleto.pdf import BoletoPDF
@@ -8,7 +9,7 @@ pyboleto.unicode = str
 
 def print_bradesco():
     listaDadosBradesco = []
-    for i in range(2):
+    for i in range(3):
         d = BoletoBradesco()
         d.carteira = '06'  # Contrato firmado com o Banco Bradesco
         d.cedente = 'Empresa ACME LTDA'
@@ -18,8 +19,8 @@ def print_bradesco():
         d.agencia_cedente = '0278-0'
         d.conta_cedente = '43905-3'
         d.especie_documento = "DM"
-        d.data_vencimento = datetime.date(2011, 1, 25)
-        d.data_documento = datetime.date(2010, 2, 12)
+        d.data_vencimento = datetime.date(2022, 9, (25+i))
+        d.data_documento = datetime.date(2022, 8, 17)
         d.data_processamento = datetime.date(2010, 2, 12)
 
         d.instrucoes = [
@@ -31,7 +32,7 @@ def print_bradesco():
             "- Serviço Teste R$ 5,00",
             "- Total R$ 5,00",
             ]
-        d.valor_documento = 2158.41
+        d.valor_documento = 2158.41+i
 
         d.nosso_numero = "1112011668"
         d.numero_documento = "1112011668"
@@ -60,12 +61,22 @@ def print_bradesco():
 #    boleto.save()
 
     # Bradesco Formato normal - uma pagina por folha A4
-    boleto = BoletoPDF('boleto-bradesco.pdf')
-    for i in range(len(listaDadosBradesco)):
-        boleto.drawBoleto(listaDadosBradesco[i])
-        boleto.nextPage()
-    boleto.save()
-
+    # boleto = BoletoPDF('boleto-bradesco.pdf')
+    # for i in range(len(listaDadosBradesco)):
+    #     boleto.drawBoleto(listaDadosBradesco[i])
+    #     boleto.nextPage()
+    # boleto.save()
+    
+    # usar um buffer para separar cada boleto(pagina) em um arquivo pdf individual
+    # para envio ao cliente caso necessário    
+    with open('boleto_bradesco.pdf', 'wb') as f: 
+        buffer = io.BytesIO()
+        boleto = BoletoPDF(buffer)
+        for i in range(len(listaDadosBradesco)):                    
+            boleto.drawBoleto(listaDadosBradesco[i])
+            boleto.nextPage()
+        boleto.save()
+        f.write(buffer.getbuffer())
 
 def print_all():
     print("Pyboleto version: %s" % pyboleto.__version__)
