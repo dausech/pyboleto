@@ -391,7 +391,7 @@ class BoletoPDF(object):
         self.pdfCanvas.drawString(
             0 + self.space,
             (((linhaInicial + 0) * self.heightLine)) + self.space,
-            boletoDados.cedente_cidade+" - "+boletoDados.cedente_uf+" CEP:"+boletoDados.cedente_cep
+            boletoDados.cedente_cep +" "+ boletoDados.cedente_cidade +" - "+ boletoDados.cedente_uf
         )
 
         self.pdfCanvas.setFont('Courier', 9)
