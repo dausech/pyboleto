@@ -724,7 +724,7 @@ class BoletoPDF(object):
         )
 
         self.pdfCanvas.setFont('Helvetica', self.fontSizeValue)
-        self.pdfCanvas.drawString(0, y + self.space, boletoDados.cedente+"  CNPJ:"+boletoDados.cedente_documento)
+        self.pdfCanvas.drawString(0, y + self.space, boletoDados.cedente+" "+boletoDados.cedente_documento)
         self.pdfCanvas.drawRightString(
             self.width - 2 * self.space,
             y + self.space,
