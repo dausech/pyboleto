@@ -137,7 +137,7 @@ class BoletoPDF(object):
         valorDocumento = self._formataValorParaExibir(
             boletoDados.valor_documento
         )
-
+       
         self.pdfCanvas.drawString(
             self.space,
             (((linhaInicial + 0) * self.heightLine)) + self.space,
@@ -541,7 +541,15 @@ class BoletoPDF(object):
                 y - (i * self.deltaFont),
                 instrucoes[i]
             )
-        
+
+        if boletoDados.valor_desconto is not None:
+            valorDesconto = self._formataValorParaExibir(boletoDados.valor_desconto)
+            self.pdfCanvas.drawRightString(
+                self.width - 2 * self.space,            
+                y + self.space,            
+                valorDesconto            
+            )
+
         if boletoDados.conteudo_qr_code:                        
             qr = qrcode.QRCode(version=5,
                                 error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -632,6 +640,7 @@ class BoletoPDF(object):
         valorDocumento = self._formataValorParaExibir(
             boletoDados.valor_documento
         )
+        
         self.pdfCanvas.drawRightString(
             self.width - 2 * self.space,
             y + self.space,

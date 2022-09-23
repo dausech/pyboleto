@@ -179,6 +179,7 @@ class BoletoData(object):
         self._sacado = None
         self._valor = None
         self._valor_documento = None
+        self._valor_desconto = None
 
     @property
     def barcode(self):
@@ -345,6 +346,18 @@ class BoletoData(object):
     outro tipo será feito um cast para :class:`Decimal`.
 
     """
+    
+    def _get_valor_desconto(self):
+        if self._valor_desconto is not None:
+            return "%.2f" % self._valor_desconto
+
+    def _set_valor_desconto(self, val):
+        if type(val) is Decimal:
+            self._valor_desconto = val
+        else:
+            self._valor_desconto = Decimal(str(val))
+    valor_desconto = property(_get_valor_desconto, _set_valor_desconto)
+
 
     def _instrucoes_get(self):
         return self._instrucoes

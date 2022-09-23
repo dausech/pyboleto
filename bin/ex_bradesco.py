@@ -9,7 +9,7 @@ pyboleto.unicode = str
 
 def print_bradesco():
     listaDadosBradesco = []
-    for i in range(3):
+    for i in range(2):
         d = BoletoBradesco()
         d.carteira = '06'  # Contrato firmado com o Banco Bradesco
         d.cedente = 'Empresa ACME LTDA'
@@ -33,6 +33,7 @@ def print_bradesco():
             "- Total R$ 5,00",
             ]
         d.valor_documento = 2158.41+i
+        d.valor_desconto = 1.90
 
         d.nosso_numero = "1112011668"
         d.numero_documento = "1112011668"
@@ -69,7 +70,8 @@ def print_bradesco():
     
     # usar um buffer para separar cada boleto(pagina) em um arquivo pdf individual
     # para envio ao cliente caso necessário    
-    with open('boleto_bradesco.pdf', 'wb') as f: 
+    timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    with open(f'boleto_bradesco-{timestamp}.pdf', 'wb') as f: 
         buffer = io.BytesIO()
         boleto = BoletoPDF(buffer)
         for i in range(len(listaDadosBradesco)):                    
