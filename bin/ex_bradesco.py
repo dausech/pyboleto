@@ -22,7 +22,7 @@ def print_bradesco():
         d.data_vencimento = datetime.date(2022, 9, (25+i))
         d.data_documento = datetime.date(2022, 8, 17)
         d.data_processamento = datetime.date(2010, 2, 12)
-
+        d.local_pagamento = "Pagável preferencialmente na Rede Bradesco ou Bradesco Expresso"
         d.instrucoes = [
             "- Linha 1",
             "- Sr Caixa, cobrar multa de 2% após o vencimento",
